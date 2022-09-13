@@ -1,13 +1,20 @@
 # extracting the audio
 import moviepy.editor as mp
-my_clip = mp.VideoFileClip(r"test_case1.mov")
-my_clip.audio.write_audiofile(r"test.wav")
+# source and destination for audio file
+source = r"test_case1.mov"
+dest = r"test.wav"
+def audio_extract(source, dest):
+    my_clip = mp.VideoFileClip(source)
+    my_clip.audio.write_audiofile(dest)
+
+audio_extract(source, dest)
 
 # storing the text
 text = '' 
 
 # speech to text
 import speech_recognition as sr
+
 filename = "test.wav"
 r = sr.Recognizer()
 with sr.AudioFile(filename) as source:
