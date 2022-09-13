@@ -1,21 +1,10 @@
 # extracting the audio
 import moviepy.editor as mp
-my_clip = mp.VideoFileClip(r"testcase2.mov")
-my_clip.audio.write_audiofile(r"my_result.mp3")
+my_clip = mp.VideoFileClip(r"test_case1.mov")
+my_clip.audio.write_audiofile(r"test.wav")
 
-
-# converting mp3 into wav
-from os import path
-from pydub import AudioSegment
-
-# files                                                                         
-src = "my_result.mp3"
-dst = "test.wav"
-
-# convert wav to mp3                                                            
-sound = AudioSegment.from_mp3(src)
-sound.export(dst, format="wav")
-
+# storing the text
+text = '' 
 
 # speech to text
 import speech_recognition as sr
@@ -26,13 +15,20 @@ with sr.AudioFile(filename) as source:
     audio_data = r.record(source)
     # recognize (convert from speech to text)
     text = r.recognize_google(audio_data)
-    print(text)
 
-
+print(f"English Subtitles: {text}")
 # language conversion
-import googletrans
-# making the object
-transalator = googletrans.Translator()
-# translating the languages
-translated = transalator.translate('I love india', dest = 'hi')
-print(translated)
+
+from googletrans import Translator
+
+translator = Translator()
+
+source_lan = "en"
+
+translated_to= "hi"
+
+translated_text = translator.translate(text, src=source_lan, dest = translated_to)
+
+print(f"Hindi Subtitles: {translated_text.text}")
+
+print(f"Pronunciation {translated_text.pronunciation}")
