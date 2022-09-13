@@ -1,37 +1,33 @@
-# # modules
-# import cv2
-# from os import path
+# extracting the audio
+import moviepy.editor as mp
+my_clip = mp.VideoFileClip(r"testcase2.mov")
+my_clip.audio.write_audiofile(r"my_result.mp3")
 
-# # import moviepy.editor
-# #   video input
-# video_cap = cv2.VideoCapture("test_case1.mp4")
-# fps = video_cap.get(cv2.CAP_PROP_FPS)
-# #   reading every frame
-# while True:
-#     success, frame = video_cap.read()
-#     cv2.imshow("frame", frame)
 
-#     if cv2.waitKey(1) & 0xFF== ord('q'):
-#         break
+# converting mp3 into wav
+from os import path
+from pydub import AudioSegment
 
-# video_cap.release()
-# cv2.destroyAllWindows()
-# #   seprating audio from video
-# # my_clip = moviepy.VideoFileClip(r"test_case1.mov")
-# # my_clip.audio.write_audiofile(r"my_result.mp3")
-
-# mp3 to wav
-from pydub import AudioSegment                                                                     
-# files    
-src = "case1.mp3"
+# files                                                                         
+src = "my_result.mp3"
 dst = "test.wav"
 
-    # convert wav to mp3                                                            
+# convert wav to mp3                                                            
 sound = AudioSegment.from_mp3(src)
 sound.export(dst, format="wav")
 
 
 # speech to text
+import speech_recognition as sr
+filename = "test.wav"
+r = sr.Recognizer()
+with sr.AudioFile(filename) as source:
+    # listen for the data (load audio to memory)
+    audio_data = r.record(source)
+    # recognize (convert from speech to text)
+    text = r.recognize_google(audio_data)
+    print(text)
+
 
 # language conversion
 import googletrans
@@ -40,4 +36,3 @@ transalator = googletrans.Translator()
 # translating the languages
 translated = transalator.translate('I love india', dest = 'hi')
 print(translated)
-# inserting subtitles into video
